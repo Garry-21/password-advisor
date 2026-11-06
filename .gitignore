@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+venv/
+env/
+__pycache__/
+*.pyc
+*.spvault
+vault.db
+vault.db*
+data/private/
+results.csv
+real_dataset.csv
+.pytest_cache/
+.hypothesis/
+

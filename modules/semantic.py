@@ -70,6 +70,19 @@ def calculate_thematic_coverage(password: str, metadata: dict) -> dict:
     if not password or not metadata:
         return {"score": 0.0, "matched_fields": []}
 
+    if hasattr(metadata, "__dict__") and not isinstance(metadata, dict):
+        meta_dict = {
+            "first_name": getattr(metadata, "first_name", ""),
+            "surname": getattr(metadata, "surname", ""),
+            "city": getattr(metadata, "city", ""),
+            "birth_year": getattr(metadata, "birth_year", None),
+            "theme": getattr(metadata, "theme", ""),
+        }
+    elif isinstance(metadata, dict):
+        meta_dict = metadata
+    else:
+        meta_dict = {}
+
     password_lower = password.lower()
     norm_pw = _normalize_string(password)
     total_length = max(1, len(password))
@@ -79,9 +92,9 @@ def calculate_thematic_coverage(password: str, metadata: dict) -> dict:
 
     # 1. Collect declared string attributes
     string_fields = {
-        "name": str(metadata.get("first_name", "")).strip(),
-        "surname": str(metadata.get("surname", "")).strip(),
-        "hometown": str(metadata.get("city", "")).strip(),
+        "name": str(meta_dict.get("first_name", "")).strip(),
+        "surname": str(meta_dict.get("surname", "")).strip(),
+        "hometown": str(meta_dict.get("city", "")).strip(),
     }
 
     raw_candidates: list[tuple[str, str, bool]] = []
@@ -130,7 +143,7 @@ def calculate_thematic_coverage(password: str, metadata: dict) -> dict:
                 matched_fields.add("multi_attribute")
 
     # 2. Birth year checking (4-digit and 2-digit)
-    dob = metadata.get("birth_year")
+    dob = meta_dict.get("birth_year")
     dob_matched_len = 0
     if dob:
         dob_str = str(dob).strip()

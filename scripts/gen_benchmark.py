@@ -98,3 +98,4 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=str, default="results/benchmark.csv")
     args = parser.parse_args()
     generate_benchmark(seed=args.seed, out_path=args.output)
+

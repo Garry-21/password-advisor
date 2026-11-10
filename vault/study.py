@@ -86,3 +86,4 @@ def log_study_event(
             int(accepted_alternative),
             f"{time_ms:.1f}"
         ])
+

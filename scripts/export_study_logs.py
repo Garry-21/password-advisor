@@ -72,3 +72,4 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=str, default="results/study_summary.csv")
     args = parser.parse_args()
     export_study_summary(args.input, args.output)
+

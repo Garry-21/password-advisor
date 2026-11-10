@@ -14,6 +14,7 @@ from pathlib import Path
 import streamlit as st
 
 from vault.ui_common import require_unlocked_vault
+from vault.session import SessionManager
 from vault.importers import parse_csv_stream
 from vault.backup import (
     create_encrypted_backup,
@@ -129,6 +130,7 @@ def render_import_export_page():
 
             uploaded_spvault = st.file_uploader("Upload .spvault Backup File", type=["spvault", "json"], key="uploader_spvault")
 
+            backup_password = st.text_input("Backup master password", type="password", key="backup_mpw")
             if uploaded_spvault is not None:
                 confirm_restore = st.checkbox(" I understand restoring replaces vault keys with the backup's keyslots", key="chk_confirm_restore")
                 if st.button(" Restore Vault Backup", disabled=not confirm_restore, type="primary"):
@@ -137,7 +139,8 @@ def render_import_export_page():
                         tmp_r_path = tmp_r.name
 
                     try:
-                        restored_count = restore_encrypted_backup(tmp_r_path, store)
+                        restored_count = restore_encrypted_backup(tmp_r_path, store, master_password=backup_password)
+                        SessionManager.lock_vault(st.session_state)
                         st.success(f"Successfully restored {restored_count} records! Vault is now updated.")
                         if "_cached_audit_report" in st.session_state:
                             del st.session_state._cached_audit_report

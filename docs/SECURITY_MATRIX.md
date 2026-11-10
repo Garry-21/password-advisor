@@ -1,0 +1,22 @@
+# Security and privacy validation matrix
+
+The threat model covers a reader/editor of a locked local database or backup, bounded offline password guessing, unavailable or malformed breach responses, and accidental retention of decrypted session state. It does not cover malware controlling the unlocked process, a compromised browser/OS, forensic recovery of historical snapshots, or a malicious dependency. Tests use fictional secrets and temporary databases; no real vault is modified.
+
+| Review item | Adversary and setup | Acceptance criterion | Evidence and observation | Remaining limitation |
+|---|---|---|---|---|
+| E5.1 storage confidentiality | Read SQLite/backup bytes after storing fictional credentials | No plaintext credential/profile tokens in protected data | `test_security_matrix.py`, `test_review1.py`; pass | Encrypted lengths, record counts and identifiers remain visible; historical files/backups are not erased |
+| E5.2 record integrity | Change ciphertext, tags or record ID | Decryption fails | `test_crypto.py`, `test_security_matrix.py`; pass | Deletion and replay of an entire previously valid vault are not prevented |
+| E5.3 master guessing | Run Argon2id configurations on development host | Report parameters and actual times | `argon2.txt`; default 64 MiB/t=3/p=4 measured about 38 ms | This is not adversary throughput or a universal cost guarantee |
+| E5.4 recovery | Wrong/modified recovery keys; correct key | Reject wrong keys, permit correct key | Existing crypto/security tests; pass. Recovery login now checks throttling | Recovery keys remain reusable by design until revoked; no one-time recovery claim |
+| E5.5 personal metadata | Save/read without DEK; legacy profile migration; tampered profile | Reject keyless writes, hide locked profile, encrypt migration, reject tamper | `test_step1_security.py`, `test_review1.py`; pass | Secure-delete cannot erase OS snapshots, SSD remanence or old copies; corrupt migration fails visibly |
+| E5.6 egress | Inspect constructed HIBP request, disallowed paths and secret payloads | Five-character prefix, GET, padding, no redirects; no remote credential suggestions | `test_egress.py`, `test_syntactic.py`, `test_review1.py`; pass; LLM suggestion path now local | No system-wide firewall guarantee; real packet capture and traffic correlation remain future work |
+| E5.7 clipboard | Simulated clipboard and timer; user replaces clipboard value | Clear only matching copied secret | Clipboard tests pass with isolated fake clipboard | No real OS clipboard-history, synchronization or accessibility inspection performed |
+| E5.8 failed gate assessment | Network exception, malformed body and unavailable breach check | Explicit unknown warning, no fabricated negative result | Gate/audit regression tests pass; audit reports risk and health intervals | Bounds cover breach uncertainty only; other heuristic uncertainty is not quantified |
+| E5.9 session | Auto-lock expiry and explicit lock with pending plaintext/widget state | Clear key and decrypted session entries, deny DEK access | Session and review tests pass | Python cannot guarantee erasure of immutable copies or browser-rendered secrets; automatic lock is checked on rerun |
+| E5.10 backup/restore | Preserve encrypted profile; corrupt record before restore over initialized vault | Verify backup master password and contents before atomic replacement; retain old vault on failure | Backup and review tests pass | No authenticated whole-file manifest: adversary can delete records and adjust unauthenticated count; legacy backups without profiles cannot restore missing metadata |
+
+Existing storage primitives (AES-GCM, Argon2id, HKDF) are established mechanisms, not a new cryptographic contribution. Unit tests demonstrate only their exercised properties. Locked storage is different from an unlocked host under attacker control.
+
+The backup API permits structurally checked restoration into a fresh store without a password for compatibility; authenticity is then checked on decryption. The application always supplies a backup password and verifies before replacing an existing vault. Successful restore locks and clears the current session so a previous vault's key cannot remain active.
+
+The global test fixtures stub HIBP and clipboard access. The egress guard itself is exercised against prepared outbound requests, but mock results must not be described as live service validation. The single test warning comes from the existing zxcvbn-python package's deprecation notice.

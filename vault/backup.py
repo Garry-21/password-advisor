@@ -12,6 +12,7 @@ Vault Backup and Export Engine (Section 8):
 import csv
 import json
 import time
+import os
 from typing import List, Dict, Any, Tuple
 from pathlib import Path
 
@@ -38,6 +39,10 @@ def create_encrypted_backup(store: VaultStore, output_path: str) -> int:
         cursor = conn.cursor()
         cursor.execute("SELECT id, nonce, ct, schema FROM records")
         rows = cursor.fetchall()
+        row = conn.execute("SELECT value FROM meta WHERE key='profile'").fetchone()
+        profile = json.loads(row[0]) if row else None
+        if profile is not None and not profile.get("enc"):
+            raise ValueError("Unlock the vault to migrate its legacy profile before backup.")
 
     records_data = []
     for r in rows:
@@ -54,6 +59,7 @@ def create_encrypted_backup(store: VaultStore, output_path: str) -> int:
         "exported_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "record_count": len(records_data),
         "header": header.to_dict(),
+        "profile": profile,
         "records": records_data
     }
 
@@ -62,10 +68,11 @@ def create_encrypted_backup(store: VaultStore, output_path: str) -> int:
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(backup_payload, f, indent=2)
 
+    os.chmod(out_file, 0o600)
     return len(records_data)
 
 
-def restore_encrypted_backup(backup_path: str, target_store: VaultStore) -> int:
+def restore_encrypted_backup(backup_path: str, target_store: VaultStore, master_password: str = None) -> int:
     """
     Restores an encrypted .spvault file into a target VaultStore.
     Overwrites the header and imports all records.
@@ -85,28 +92,34 @@ def restore_encrypted_backup(backup_path: str, target_store: VaultStore) -> int:
         raise ValueError("Corrupt backup: missing vault header.")
 
     header = VaultHeader.from_dict(header_dict)
-    target_store.save_header(header)
-
     records = payload.get("records", [])
+    if payload.get("record_count") != len(records):
+        raise ValueError("Backup record count mismatch")
+    profile = payload.get("profile")
+    if profile is not None and not profile.get("enc"):
+        raise ValueError("Backup contains unencrypted profile metadata")
+    if len({r["id"] for r in records}) != len(records):
+        raise ValueError("Duplicate record identifiers in backup")
+    parsed = [(r["id"], bytes.fromhex(r["nonce"]), bytes.fromhex(r["ct"]), r.get("schema", 1)) for r in records]
+    if any(len(nonce) != 12 or len(ct) < 16 or schema != 1 for _, nonce, ct, schema in parsed):
+        raise ValueError("Invalid encrypted record structure")
+    if master_password is not None:
+        from vault.crypto import unlock_dek_with_password, decrypt_entry, decrypt_profile
+        dek = unlock_dek_with_password(header, master_password)
+        for eid, nonce, ct, schema in parsed:
+            decrypt_entry(eid, nonce, ct, dek, schema)
+        if profile:
+            decrypt_profile(bytes.fromhex(profile["nonce_hex"]), bytes.fromhex(profile["ct_hex"]), dek, profile["schema"])
+    elif target_store.vault_exists():
+        raise ValueError("Verify the backup master password before replacing an existing vault")
+    # Validate first, then replace everything atomically: never mix different vault keys.
     with target_store._get_connection() as conn:
-        cursor = conn.cursor()
-        for r in records:
-            nonce_bytes = bytes.fromhex(r["nonce"]) if isinstance(r["nonce"], str) else r["nonce"]
-            ct_bytes = bytes.fromhex(r["ct"]) if isinstance(r["ct"], str) else r["ct"]
-            cursor.execute(
-                """
-                INSERT OR REPLACE INTO records 
-                (id, nonce, ct, schema)
-                VALUES (?, ?, ?, ?)
-                """,
-                (
-                    r["id"],
-                    nonce_bytes,
-                    ct_bytes,
-                    r.get("schema", 1)
-                )
-            )
-        conn.commit()
+        conn.execute("DELETE FROM records")
+        conn.execute("DELETE FROM meta")
+        conn.execute("INSERT INTO meta(key,value) VALUES ('header',?)", (json.dumps(header.to_dict()).encode(),))
+        if profile:
+            conn.execute("INSERT INTO meta(key,value) VALUES ('profile',?)", (json.dumps(profile).encode(),))
+        conn.executemany("INSERT INTO records(id,nonce,ct,schema) VALUES (?,?,?,?)", parsed)
 
     return len(records)
 

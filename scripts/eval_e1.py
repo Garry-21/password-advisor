@@ -1,4 +1,6 @@
 """Evaluate semantic personal-context detector on test split (E1)."""
+import warnings
+warnings.warn("Legacy exploratory harness: do not use its outputs as independent review evidence. Use scripts/review_experiments.py or scripts/review_performance.py; see docs/REVIEW1_CHANGES.md.", RuntimeWarning)
 import argparse
 import csv
 import os

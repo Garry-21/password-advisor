@@ -14,3 +14,6 @@ real_dataset.csv
 .pytest_cache/
 .hypothesis/
 
+
+.venv/
+results/review1/private/

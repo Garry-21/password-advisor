@@ -128,17 +128,9 @@ def render_settings_page():
     # ── Tab 4: Audit Weights ────────────────────────────────────────────────────
     with tab_audit_weights:
         st.markdown("#### Audit Signal Weighting")
-        st.caption("Tune the relative importance of each signal in computing your Vault Health Score (VHS).")
-
-        w_breach = st.slider("Breach (HIBP)", 0.0, 1.0, float(WEIGHTS["breach"]), 0.05)
-        w_sem = st.slider("Semantic PII Coverage", 0.0, 1.0, float(WEIGHTS["semantic"]), 0.05)
-        w_syn = st.slider("Syntactic Complexity (zxcvbn)", 0.0, 1.0, float(WEIGHTS["syntax"]), 0.05)
-        w_reuse = st.slider("Exact Reuse", 0.0, 1.0, float(WEIGHTS["reuse"]), 0.05)
-        w_der = st.slider("Derivative Families", 0.0, 1.0, float(WEIGHTS["derivative"]), 0.05)
-        w_age = st.slider("Age / Stale (> 90d)", 0.0, 1.0, float(WEIGHTS["age"]), 0.05)
-
-        total_weight = w_breach + w_sem + w_syn + w_reuse + w_der + w_age
-        st.caption(f"Sum of weights: **{total_weight:.2f}** (automatically normalized to 1.0)")
+        st.caption("These are transparent heuristic weights, not learned probabilities. Research model fitting is kept separate from the live vault.")
+        st.table({"Signal": list(WEIGHTS), "Default weight": list(WEIGHTS.values())})
+        st.info("Age contributes zero by default. Semantic, reuse and derivative contributions share a 0.35 cap. Alternative weights and fitted models are evaluated with the research scripts before any deployment.")
 
 
 if __name__ == "__main__":

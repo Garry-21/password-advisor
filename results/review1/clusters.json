@@ -1,0 +1,51 @@
+{
+  "provenance": "synthetic planted families; not population accuracy",
+  "results": {
+    "chain": {
+      "pairwise": {
+        "n": 7140,
+        "tp": 90,
+        "fp": 0,
+        "tn": 7050,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fpr": 0.0,
+        "balanced_accuracy": 1.0,
+        "pr_auc": 1.0,
+        "roc_auc": 1.0,
+        "brier": 0.0,
+        "threshold": 0.5
+      },
+      "adjusted_rand": 1.0,
+      "bcubed_precision": 1.0,
+      "bcubed_recall": 1.0,
+      "known_family_pairs": 90,
+      "history_guessed_pairs": 90
+    },
+    "pairwise": {
+      "pairwise": {
+        "n": 7140,
+        "tp": 90,
+        "fp": 0,
+        "tn": 7050,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fpr": 0.0,
+        "balanced_accuracy": 1.0,
+        "pr_auc": 1.0,
+        "roc_auc": 1.0,
+        "brier": 0.0,
+        "threshold": 0.5
+      },
+      "adjusted_rand": 1.0,
+      "bcubed_precision": 1.0,
+      "bcubed_recall": 1.0,
+      "known_family_pairs": 90,
+      "history_guessed_pairs": 90
+    }
+  }
+}

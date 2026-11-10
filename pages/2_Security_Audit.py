@@ -63,6 +63,9 @@ def render_audit_page():
     else:
         report = st.session_state._cached_audit_report
 
+    st.caption("Scores are heuristic priorities, not probabilities of compromise. Age alone does not require a password change.")
+    if report.unknown_breach_count:
+        st.warning(f"Breach status unknown for {report.unknown_breach_count} entries. Health score range: {report.vhs_lower_bound:.1f}–{report.vhs_score:.1f}. Retry when online.")
     # ── Vault Health Score (VHS) Display ────────────────────────────────────────
     vhs = report.vhs_score
     if vhs >= 85:
@@ -82,6 +85,8 @@ def render_audit_page():
         grade_color = "#f87171" # red
         grade_desc = "Critical Vulnerabilities Detected"
 
+    if report.unknown_breach_count:
+        grade, grade_desc, grade_color = "?", "Assessment incomplete", "#fbbf24"
     st.markdown(
         f"""
         <div class="vhs-gauge-card">
@@ -98,12 +103,12 @@ def render_audit_page():
 
     # ── 6-Signal Metric Highlights ──────────────────────────────────────────────
     c1, c2, c3, c4, c5, c6 = st.columns(6)
-    c1.metric("Breached (HIBP)", report.breached_count, delta=f"-{report.breached_count}" if report.breached_count > 0 else "Clean", delta_color="inverse")
+    c1.metric("Breached (HIBP)", report.breached_count, delta=f"-{report.breached_count}" if report.breached_count > 0 else ("Unknown" if report.unknown_breach_count else "Not found"), delta_color="inverse")
     c2.metric("Personal Info (PII)", report.personal_info_count, delta=f"-{report.personal_info_count}" if report.personal_info_count > 0 else "Clean", delta_color="inverse")
     c3.metric("Weak Syntax", report.weak_syntax_count, delta=f"-{report.weak_syntax_count}" if report.weak_syntax_count > 0 else "Clean", delta_color="inverse")
     c4.metric("Exact Reuses", report.reused_count, delta=f"-{report.reused_count}" if report.reused_count > 0 else "Clean", delta_color="inverse")
     c5.metric("Derivative Variations", report.derivative_count, delta=f"-{report.derivative_count}" if report.derivative_count > 0 else "Clean", delta_color="inverse")
-    c6.metric("Stale (> 90d)", report.old_count, delta=f"-{report.old_count}" if report.old_count > 0 else "Fresh", delta_color="inverse")
+    c6.metric("Age > 90d (informational)", report.old_count)
 
     st.markdown("---")
 
@@ -112,7 +117,7 @@ def render_audit_page():
         st.subheader(" Derivative Password Families")
         st.caption(
             "Attackers who compromise one account routinely test slight variations (e.g. adding years, symbols, or leet substitutions) "
-            "on your other services. These accounts share a common root:"
+            "on your other services. These accounts are connected by similarity rules; indirect links need not be pairwise similar:"
         )
 
         for fam_id, site_names in report.derivative_families.items():

@@ -1,20 +1,4 @@
 import re
-
-LEET_MAP = {
-    "0": "o",
-    "1": "i",
-    "2": "z",
-    "3": "e",
-    "4": "a",
-    "5": "s",
-    "7": "t",
-    "@": "a",
-    "$": "s",
-    "!": "i",
-    "+": "t",
-}
-
-import re
 import itertools
 
 LEET_MAP = {
@@ -160,7 +144,7 @@ def calculate_thematic_coverage(password: str, metadata: dict) -> dict:
             has_boundary_year = bool(
                 re.search(rf"(?:^|[^0-9]){re.escape(dob_short)}(?:$|[^0-9])", password_lower)
             )
-            if has_other_personal or (has_boundary_year and password_lower.endswith(dob_short)):
+            if dob_short in password_lower and (has_other_personal or (has_boundary_year and password_lower.endswith(dob_short))):
                 dob_matched_len = 2
                 matched_fields.add("birth year")
 

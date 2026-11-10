@@ -1,75 +1,47 @@
-"""Export and summarize study logs across conditions (G1-G4)."""
-import argparse
-import csv
-import os
+"""E4 participant-clustered summaries. Demo/synthetic rows never count as human evidence."""
+import argparse,csv,json
+from pathlib import Path
 import numpy as np
 
-def export_study_summary(input_csv="results/study_logs.csv", output_csv="results/study_summary.csv"):
-    if not os.path.exists(input_csv):
-        print(f"No study log file found at {input_csv}.")
-        return
-
-    records = []
-    with open(input_csv, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        records = list(reader)
-
-    if not records:
-        print("Study log file is empty.")
-        return
-
-    conditions = ["G1", "G2", "G3", "G4"]
-    summary_rows = []
-
-    print("\nStudy Evaluation Summary (STUDY_MODE=1)")
-    print(f"{'Condition':<10} | {'Trials':<8} | {'Warnings':<10} | {'Override Rate':<15} | {'Adopt Alt Rate':<15} | {'Median(ms)':<10}")
-    print("-" * 78)
-
-    for cond in conditions:
-        sub = [r for r in records if r["condition"] == cond]
-        n_trials = len(sub)
-        if n_trials == 0:
-            summary_rows.append({"condition": cond, "trials": 0, "warnings": 0, "override_rate": 0.0, "adopt_alt_rate": 0.0, "median_time_ms": 0.0})
-            continue
-
-        warnings = sum(1 for r in sub if r["warning_shown"] in ("1", 1))
-        overrides = sum(1 for r in sub if r["overridden"] in ("1", 1))
-        adoptions = sum(1 for r in sub if r["accepted_alternative"] in ("1", 1))
-        times = [float(r["time_ms"]) for r in sub if r.get("time_ms")]
-
-        override_rate = (overrides / warnings) if warnings > 0 else 0.0
-        adopt_rate = (adoptions / warnings) if warnings > 0 else 0.0
-        med_time = float(np.median(times)) if times else 0.0
-
-        summary_rows.append({
-            "condition": cond,
-            "trials": n_trials,
-            "warnings": warnings,
-            "override_rate": override_rate,
-            "adopt_alt_rate": adopt_rate,
-            "median_time_ms": med_time
-        })
-        print(f"{cond:<10} | {n_trials:<8} | {warnings:<10} | {override_rate * 100:<14.1f}% | {adopt_rate * 100:<14.1f}% | {med_time:<10.1f}")
-
-    os.makedirs(os.path.dirname(output_csv), exist_ok=True)
-    with open(output_csv, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=["condition", "trials", "warnings", "override_rate", "adopt_alt_rate", "median_time_ms"])
-        writer.writeheader()
-        for r in summary_rows:
-            writer.writerow({
-                "condition": r["condition"],
-                "trials": r["trials"],
-                "warnings": r["warnings"],
-                "override_rate": f"{r['override_rate']:.4f}",
-                "adopt_alt_rate": f"{r['adopt_alt_rate']:.4f}",
-                "median_time_ms": f"{r['median_time_ms']:.1f}"
-            })
-    print(f"\nExported summary to {output_csv}")
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Export and summarize study logs")
-    parser.add_argument("--input", type=str, default="results/study_logs.csv")
-    parser.add_argument("--output", type=str, default="results/study_summary.csv")
-    args = parser.parse_args()
-    export_study_summary(args.input, args.output)
-
+def export_study_summary(input_csv='data/private/study_events.csv', output_csv='results/review1/study_summary.json', source='human'):
+    with open(input_csv,newline='') as f:rows=list(csv.DictReader(f))
+    if any('source' not in r or 'vulnerable' not in r for r in rows):
+        raise ValueError('Legacy logs lack independent outcome/provenance; cannot establish the E4 primary outcome')
+    rows=[r for r in rows if r['source']==source]
+    if not rows:raise ValueError(f'No {source} observations; no result can be reported')
+    seen=set();assignment={}
+    for r in rows:
+        key=(r['participant_id'],r['task_id'])
+        if key in seen:raise ValueError('Duplicate participant-task observation; adjudicate before analysis')
+        seen.add(key)
+        if r['participant_id'] in assignment and assignment[r['participant_id']]!=r['condition']:
+            raise ValueError('Participant assigned to multiple conditions')
+        assignment[r['participant_id']]=r['condition']
+    rng=np.random.default_rng(42);summary={};samples={}
+    for condition in ('G1','G2','G3','G4'):
+        sub=[r for r in rows if r['condition']==condition]
+        ids=sorted({r['participant_id'] for r in sub})
+        rates=[]
+        for pid in ids:
+            vals=[int(r['vulnerable']) for r in sub if r['participant_id']==pid and r['vulnerable'] in ('0','1')]
+            if vals:rates.append(float(np.mean(vals)))
+        boot=np.array([np.mean(rng.choice(rates,len(rates),replace=True)) for _ in range(2000)]) if rates else None
+        samples[condition]=boot
+        warnings=sum(int(r['warning_shown']) for r in sub)
+        summary[condition]=dict(participants=len(ids),tasks=len(sub),labelled_tasks=sum(r['vulnerable'] in ('0','1') for r in sub),
+                 participant_mean_vulnerable_rate=float(np.mean(rates)) if rates else None,
+                 cluster_bootstrap_ci95=np.percentile(boot,[2.5,97.5]).tolist() if boot is not None else None,
+                 override_rate=sum(int(r['overridden']) for r in sub)/warnings if warnings else None,
+                 adoption_rate=sum(int(r['accepted_alternative']) for r in sub)/warnings if warnings else None,
+                 median_time_ms=float(np.median([float(r['time_ms']) for r in sub])) if sub else None)
+    contrasts={}
+    for left,right in [('G3','G2'),('G4','G3'),('G4','G1')]:
+        if samples[left] is not None and samples[right] is not None:
+            contrasts[f'{left}_minus_{right}']=dict(difference=summary[left]['participant_mean_vulnerable_rate']-summary[right]['participant_mean_vulnerable_rate'],ci95=np.percentile(samples[left]-samples[right],[2.5,97.5]).tolist())
+    report=dict(source=source,estimand='Equal-participant mean retained vulnerability rate',groups=summary,contrasts=contrasts,
+                limitations=['Primary label relative to specified attacker/budget only','Bootstrap inference is unstable with few participants','No study power or external validity established by this analysis'])
+    out=Path(output_csv);out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2))
+    return report
+if __name__=='__main__':
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--input',default='data/private/study_events.csv');p.add_argument('--output',default='results/review1/study_summary.json');p.add_argument('--source',choices=['human','demo','synthetic'],default='human');a=p.parse_args()
+    export_study_summary(a.input,a.output,a.source)

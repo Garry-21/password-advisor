@@ -109,6 +109,9 @@ class SessionManager:
         Attempts to unlock vault with raw 32-byte recovery key.
         Returns (success: bool, message: str).
         """
+        allowed, wait_secs = store.check_unlock_allowed()
+        if not allowed:
+            return False, f"Too many failed attempts. Wait {wait_secs:.0f}s."
         header = store.get_header()
         if not header:
             return False, "Vault database does not exist."
@@ -121,6 +124,7 @@ class SessionManager:
             store.reset_failed_unlocks()
             return True, "Vault unlocked with recovery key."
         except AuthError:
+            store.record_failed_unlock()
             return False, "Invalid recovery key."
         except Exception as e:
             return False, f"Recovery unlock error: {str(e)}"
@@ -136,6 +140,11 @@ class SessionManager:
                 ba[i] = 0
             ba.clear()
 
+        # Clear decrypted objects, widget passwords, pending forms and cached reports.
+        # Keep only the store handle and non-secret timeout configuration.
+        for key in list(state_dict):
+            if key not in {"_vault_store", SESSION_KEY_AUTO_LOCK_MINUTES}:
+                del state_dict[key]
         state_dict[SESSION_KEY_DEK] = None
         state_dict[SESSION_KEY_UNLOCKED] = False
         state_dict[SESSION_KEY_LAST_ACTIVITY] = 0.0

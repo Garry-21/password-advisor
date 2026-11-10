@@ -17,7 +17,7 @@ import string
 import time
 from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import List, Dict, Set, Optional, Tuple, Any
 
 from rapidfuzz import fuzz
@@ -42,7 +42,7 @@ class AuditConfig:
     rotation_policy_days: int = 90
     max_correlated_contribution: float = 0.35  # Cap on reuse + derivative + semantic
     cluster_mode: str = "chain"                # "chain" (Union-Find) or "pairwise" (strict)
-    calibrated_model_path: Optional[str] = "data/calibrated_scorer.json"
+    calibrated_model_path: Optional[str] = None
 
 DEFAULT_CONFIG = AuditConfig()
 WEIGHTS = dict(DEFAULT_CONFIG.weights)
@@ -55,7 +55,7 @@ class EntryAuditResult:
     site_name: str
     username: str
     criticality: int
-    b_i: float              # 1.0 (breached), 0.0 (clean), or None (check failed)
+    b_i: Optional[float]              # 1.0 (breached), 0.0 (clean), or None (check failed)
     breach_count: int
     C_i: float              # Thematic Coverage Score (0.0 to 1.0)
     matched_pii: List[str]
@@ -70,6 +70,8 @@ class EntryAuditResult:
     age_days: int
     risk_score: float       # R_i in [0.0, 1.0]
     finding_badges: List[str] = field(default_factory=list)
+    breach_status: str = "unknown"
+    risk_upper_bound: float = 0.0
 
 
 @dataclass
@@ -85,6 +87,8 @@ class VaultAuditReport:
     derivative_families: Dict[int, List[str]] # family_id -> list of site names
     entry_results: List[EntryAuditResult]
     audit_timestamp: float = field(default_factory=time.time)
+    unknown_breach_count: int = 0
+    vhs_lower_bound: float = 100.0
 
 
 # ── Derivative Family Detection (Section 5.2) ────────────────────────────────
@@ -115,10 +119,10 @@ class UnionFind:
         self.parent = list(range(n))
 
     def find(self, i: int) -> int:
-        if self.parent[i] == i:
-            return i
-        self.parent[i] = self.find(self.parent[i])
-        return self.parent[i]
+        while self.parent[i] != i:
+            self.parent[i] = self.parent[self.parent[i]]
+            i = self.parent[i]
+        return i
 
     def union(self, i: int, j: int):
         root_i = self.find(i)
@@ -157,57 +161,35 @@ def detect_derivative_families(
       - 'pairwise': Strict pairwise clique-only mode (no transitively chained groups;
         entries are clustered only if all pairs in the group share the derivative relation).
     """
+    if cluster_mode not in {"chain", "pairwise"}:
+        raise ValueError("cluster_mode must be chain or pairwise")
+    # Stable ordering makes greedy complete-link groups independent of UI sort order.
+    entries = sorted(entries, key=lambda e: e.id)
     n = len(entries)
-    if n <= 1:
-        return {}, {}
-
     bases = [extract_base_password(e.password) for e in entries]
-
-    # Pre-calculate pairwise adjacency
-    adj = [[False] * n for _ in range(n)]
-    for i in range(n):
-        for j in range(i + 1, n):
-            if _are_derivatives(entries[i].password, entries[j].password, bases[i], bases[j]):
-                adj[i][j] = True
-                adj[j][i] = True
-
+    def related(i, j):
+        return _are_derivatives(entries[i].password, entries[j].password, bases[i], bases[j])
     if cluster_mode == "pairwise":
-        # Strict mode: form groups where every member is connected to every other member (cliques),
-        # or disjoint pairwise pairs. A~B and B~C with A!~C will NOT merge A, B, and C together.
-        assigned = set()
-        family_id_counter = 1
-        entry_to_family: Dict[str, int] = {}
-        family_members: Dict[int, List[str]] = {}
-
+        groups = []
         for i in range(n):
-            if i in assigned:
-                continue
-            # Find all j connected to i
-            candidates = [j for j in range(n) if j != i and adj[i][j] and j not in assigned]
-            if not candidates:
-                continue
-            
-            # Form maximum mutual clique starting with i
-            clique = [i]
-            for c in candidates:
-                if all(adj[c][m] for m in clique):
-                    clique.append(c)
-
-            if len(clique) >= 2:
-                fam_id = family_id_counter
-                family_id_counter += 1
-                for idx in clique:
-                    assigned.add(idx)
-                    entry_to_family[entries[idx].id] = fam_id
-                family_members[fam_id] = [entries[idx].site_name for idx in clique]
-
-        return entry_to_family, family_members
-
-    # Default 'chain' mode using UnionFind
+            for group in groups:
+                if all(related(i, j) for j in group):
+                    group.append(i)
+                    break
+            else:
+                groups.append([i])
+        mapping, members = {}, {}
+        for group in groups:
+            if len(group) > 1:
+                fid = len(members) + 1
+                members[fid] = [entries[i].site_name for i in group]
+                mapping.update({entries[i].id: fid for i in group})
+        return mapping, members
+    # Streaming comparisons retain the exact chain semantics without an n² matrix.
     uf = UnionFind(n)
     for i in range(n):
         for j in range(i + 1, n):
-            if adj[i][j]:
+            if related(i, j):
                 uf.union(i, j)
 
     clusters: Dict[int, List[int]] = {}
@@ -235,13 +217,21 @@ def detect_derivative_families(
 
 def load_calibrated_scorer(model_path: Optional[str]) -> Optional[Dict[str, Any]]:
     """Loads calibrated logistic regression model coefficients if file exists."""
-    if not model_path or not os.path.exists(model_path):
+    if not model_path:
         return None
+    if not os.path.exists(model_path):
+        raise ValueError("Configured model file does not exist")
     try:
         with open(model_path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return None
+            model = json.load(f)
+        values = [float(model["intercept"]), *[float(v) for v in model["coefficients"].values()]]
+        if not all(math.isfinite(v) for v in values):
+            raise ValueError("Non-finite model coefficient")
+        if not set(model["coefficients"]).issubset(WEIGHTS):
+            raise ValueError("Unknown model feature")
+        return model
+    except (ValueError, KeyError, TypeError) as exc:
+        raise ValueError("Invalid calibrated model") from exc
 
 
 def calculate_calibrated_risk(
@@ -266,7 +256,7 @@ def calculate_calibrated_risk(
 
 
 def calculate_risk_score(
-    b_i: float = 0.0,
+    b_i: Optional[float] = 0.0,
     C_i: float = 0.0,
     s_i: float = 0.0,
     r_i: float = 0.0,
@@ -286,7 +276,7 @@ def calculate_risk_score(
     raw_risk = (
         active_weights.get("breach", 0.45) * b_i +
         active_weights.get("syntax", 0.15) * s_i +
-        active_weights.get("age", 0.0) * a_i +
+        active_weights.get("age", 0.0) * a_i * active_cfg.enable_age_score +
         capped_correlated
     )
     return max(0.0, min(1.0, raw_risk))
@@ -314,6 +304,11 @@ def audit_vault(
     active_weights = dict(active_cfg.weights)
     if custom_weights:
         active_weights.update(custom_weights)
+    active_cfg = replace(active_cfg, weights=active_weights)
+    if not active_cfg.enable_age_score:
+        active_weights["age"] = 0.0
+
+    rotation_policy_days = active_cfg.rotation_policy_days if config is not None else rotation_policy_days
 
     # Load optional calibrated model
     calibrated_model = load_calibrated_scorer(active_cfg.calibrated_model_path)
@@ -336,7 +331,7 @@ def audit_vault(
     # 1. Exact reuse mapping
     password_to_sites: Dict[str, List[str]] = {}
     for e in entries:
-        password_to_sites.setdefault(e.password, []).append(e.site_name)
+        password_to_sites.setdefault(e.password, []).append((e.id, e.site_name))
 
     # 2. Derivative family mapping
     entry_to_fam, fam_to_sites = detect_derivative_families(entries, cluster_mode=active_cfg.cluster_mode)
@@ -369,6 +364,7 @@ def audit_vault(
     entry_results: List[EntryAuditResult] = []
 
     sum_weighted_risk = 0.0
+    sum_weighted_upper = 0.0
     sum_criticality = 0.0
 
     count_breached = 0
@@ -382,14 +378,14 @@ def audit_vault(
         badges = []
 
         # Signal 1: Breach
-        hits = hibp_results.get(e.id, 0)
+        hits = hibp_results.get(e.id, -1)
         if hits > 0:
             b_i = 1.0
             count_breached += 1
             badges.append(f"Breached ({hits:,} hits)")
-        elif hits == -1:
-            # Explicit unknown handling: penalize with baseline unverified risk (0.5) so it's never treated as safe
-            b_i = 0.5
+        elif hits < 0:
+            # Unknown is missing evidence, not an invented probability.
+            b_i = None
             badges.append("Breach Check Unknown (Unverified)")
         else:
             b_i = 0.0
@@ -418,7 +414,7 @@ def audit_vault(
             s_i = 0.0
 
         # Signal 4: Exact Password Reuse
-        reused_with = [s for s in password_to_sites.get(e.password, []) if s != e.site_name]
+        reused_with = [site for eid, site in password_to_sites.get(e.password, []) if eid != e.id]
         if reused_with:
             r_i = 1.0
             count_reused += 1
@@ -451,7 +447,8 @@ def audit_vault(
 
         if age_days > rotation_policy_days:
             count_old += 1
-            badges.append(f"Old ({age_days}d)")
+            if active_cfg.enable_age_score:
+                badges.append(f"Rotation policy age ({age_days}d); not evidence of compromise")
             a_i = min(1.0, age_days / 365.0)
         else:
             a_i = 0.0
@@ -466,27 +463,19 @@ def audit_vault(
             "age": a_i,
         }
 
-        if calibrated_model is not None:
-            r_risk = calculate_calibrated_risk(feature_dict, calibrated_model)
-        else:
-            # Prevent double-counting of correlated signals (reuse + derivative + semantic)
-            correlated_sum = (
-                active_weights["semantic"] * C_i +
-                active_weights["reuse"] * r_i +
-                active_weights["derivative"] * d_i
-            )
-            capped_correlated = min(active_cfg.max_correlated_contribution, correlated_sum)
-
-            raw_risk = (
-                active_weights["breach"] * b_i +
-                active_weights["syntax"] * s_i +
-                active_weights["age"] * a_i +
-                capped_correlated
-            )
-            r_risk = min(1.0, raw_risk)
+        def score_with_breach(value):
+            features = dict(feature_dict, breach=value)
+            if not active_cfg.enable_age_score:
+                features["age"] = 0.0
+            if calibrated_model is not None:
+                return calculate_calibrated_risk(features, calibrated_model)
+            return calculate_risk_score(value, C_i, s_i, r_i, d_i, a_i, active_cfg)
+        bounds = [score_with_breach(b_i)] if b_i is not None else [score_with_breach(0.0), score_with_breach(1.0)]
+        r_risk, upper_risk = min(bounds), max(bounds)
 
         crit_weight = float(max(1, min(3, e.criticality)))
         sum_weighted_risk += (crit_weight * r_risk)
+        sum_weighted_upper += crit_weight * upper_risk
         sum_criticality += crit_weight
 
         entry_results.append(EntryAuditResult(
@@ -495,7 +484,9 @@ def audit_vault(
             username=e.username,
             criticality=e.criticality,
             b_i=b_i,
-            breach_count=max(0, hits),
+            breach_count=hits,
+            breach_status="unknown" if b_i is None else ("breached" if b_i else "not_breached"),
+            risk_upper_bound=round(upper_risk, 3),
             C_i=C_i,
             matched_pii=matched_pii,
             s_i=s_i,
@@ -530,5 +521,7 @@ def audit_vault(
         derivative_count=count_derivative,
         old_count=count_old,
         derivative_families=fam_to_sites,
-        entry_results=entry_results
+        entry_results=entry_results,
+        unknown_breach_count=sum(r.b_i is None for r in entry_results),
+        vhs_lower_bound=round(100 * (1 - sum_weighted_upper / sum_criticality), 1) if sum_criticality else 100.0
     )

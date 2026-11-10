@@ -1,0 +1,2006 @@
+[
+  {
+    "profile_id": "P1001",
+    "weighted_priority": 0.21004545454545454,
+    "unweighted_priority": 0.21004545454545454,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P101",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P104",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P107",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P11",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P110",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P113",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P116",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P119",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P122",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P125",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P128",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P131",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P134",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P137",
+    "weighted_priority": 0.21509090909090908,
+    "unweighted_priority": 0.2150909090909091,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P14",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P140",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P143",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P146",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P149",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P152",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P155",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P158",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P161",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P164",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P167",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P17",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P170",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P173",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P176",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P179",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P182",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P185",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P188",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P191",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P194",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P197",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P2",
+    "weighted_priority": 0.2109090909090909,
+    "unweighted_priority": 0.2109090909090909,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P20",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P200",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P203",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P206",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P209",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P212",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P215",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P218",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P221",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P224",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P227",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P23",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P230",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P233",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P236",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P239",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P242",
+    "weighted_priority": 0.21509090909090908,
+    "unweighted_priority": 0.2150909090909091,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P245",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P248",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P251",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P254",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P257",
+    "weighted_priority": 0.216,
+    "unweighted_priority": 0.216,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P26",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P260",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P263",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P266",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P269",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P272",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P275",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P278",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P281",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P284",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P287",
+    "weighted_priority": 0.216,
+    "unweighted_priority": 0.216,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P29",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P290",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P293",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P296",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P299",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P302",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P305",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P308",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P311",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P314",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P317",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P32",
+    "weighted_priority": 0.21536363636363637,
+    "unweighted_priority": 0.21536363636363634,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P320",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P323",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P326",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P329",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P332",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P335",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P338",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P341",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P344",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P347",
+    "weighted_priority": 0.21509090909090908,
+    "unweighted_priority": 0.2150909090909091,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P35",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P350",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P353",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P356",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P359",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P362",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P365",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P368",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P371",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P374",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P377",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P38",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P380",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P383",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P386",
+    "weighted_priority": 0.21456818181818182,
+    "unweighted_priority": 0.2145681818181818,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P389",
+    "weighted_priority": 0.216,
+    "unweighted_priority": 0.216,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P392",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P395",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P398",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P401",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P404",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P407",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P41",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P410",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P413",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P416",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P419",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P422",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P425",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P428",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P431",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P434",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P437",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P44",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P440",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P443",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P446",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P449",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P452",
+    "weighted_priority": 0.21509090909090908,
+    "unweighted_priority": 0.2150909090909091,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P455",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P458",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P461",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P464",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P467",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P47",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P470",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P473",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P476",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P479",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P482",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P485",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P488",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P491",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P494",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P497",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P5",
+    "weighted_priority": 0.2109090909090909,
+    "unweighted_priority": 0.2109090909090909,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P50",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P500",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P503",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P506",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P509",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P512",
+    "weighted_priority": 0.21713636363636363,
+    "unweighted_priority": 0.21713636363636366,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P515",
+    "weighted_priority": 0.2126818181818182,
+    "unweighted_priority": 0.2126818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P518",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P521",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P524",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P527",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P53",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P530",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P533",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P536",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P539",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P542",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P545",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P548",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P551",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P554",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P557",
+    "weighted_priority": 0.21509090909090908,
+    "unweighted_priority": 0.2150909090909091,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P56",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P560",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P563",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P566",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P569",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P572",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P575",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P578",
+    "weighted_priority": 0.216,
+    "unweighted_priority": 0.216,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P581",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P584",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P587",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P59",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P590",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P593",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P596",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P599",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P602",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P605",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P608",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P611",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P614",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P617",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P62",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P620",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P623",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P626",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P629",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P632",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P635",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P638",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P641",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P644",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P647",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P65",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P650",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P653",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P656",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P659",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P662",
+    "weighted_priority": 0.21509090909090908,
+    "unweighted_priority": 0.2150909090909091,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P665",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P668",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P671",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P674",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P677",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P68",
+    "weighted_priority": 0.2105909090909091,
+    "unweighted_priority": 0.21059090909090905,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P680",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P683",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P686",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P689",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P692",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P695",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P698",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P701",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P704",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P707",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P71",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P710",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P713",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P716",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P719",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P722",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P725",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P728",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P731",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P734",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P737",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P74",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P740",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P743",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P746",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P749",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P752",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P755",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P758",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P761",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P764",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P767",
+    "weighted_priority": 0.21509090909090908,
+    "unweighted_priority": 0.2150909090909091,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P77",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P770",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P773",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P776",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P779",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P782",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P785",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P788",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P791",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P794",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P797",
+    "weighted_priority": 0.21550000000000002,
+    "unweighted_priority": 0.2155,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P8",
+    "weighted_priority": 0.2109090909090909,
+    "unweighted_priority": 0.2109090909090909,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P80",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P800",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P803",
+    "weighted_priority": 0.21313636363636365,
+    "unweighted_priority": 0.2131363636363636,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P806",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P809",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P812",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P815",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P818",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P821",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P824",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P827",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P83",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P830",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P833",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P836",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P839",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P842",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P845",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P848",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P851",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P854",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P857",
+    "weighted_priority": 0.2131590909090909,
+    "unweighted_priority": 0.2131590909090909,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P86",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P860",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P863",
+    "weighted_priority": 0.21372727272727274,
+    "unweighted_priority": 0.21372727272727274,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P866",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P869",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P872",
+    "weighted_priority": 0.21509090909090908,
+    "unweighted_priority": 0.2150909090909091,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P875",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P878",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P881",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P884",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P887",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P89",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P890",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P893",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P896",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P899",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P902",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P905",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P908",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P911",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P914",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P917",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P92",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P920",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P923",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P926",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P929",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P932",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P935",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P938",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P941",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P944",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P947",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P95",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P950",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P953",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P956",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P959",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P962",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P965",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P968",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P971",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P974",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P977",
+    "weighted_priority": 0.21509090909090908,
+    "unweighted_priority": 0.2150909090909091,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P98",
+    "weighted_priority": 0.21361363636363637,
+    "unweighted_priority": 0.21361363636363634,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P980",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P983",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P986",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P989",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P992",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.6363636363636364
+  },
+  {
+    "profile_id": "P995",
+    "weighted_priority": 0.216,
+    "unweighted_priority": 0.216,
+    "weighted_attack_rate": 0.5454545454545454
+  },
+  {
+    "profile_id": "P998",
+    "weighted_priority": 0.21031818181818182,
+    "unweighted_priority": 0.21031818181818182,
+    "weighted_attack_rate": 0.5454545454545454
+  }
+]

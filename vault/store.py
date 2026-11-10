@@ -62,6 +62,7 @@ class VaultStore:
         conn = sqlite3.connect(self.db_path, timeout=10.0)
         conn.execute("PRAGMA journal_mode = WAL;")
         conn.execute("PRAGMA synchronous = NORMAL;")
+        conn.execute("PRAGMA secure_delete = ON;")
         try:
             yield conn
             conn.commit()
@@ -120,16 +121,13 @@ class VaultStore:
             return None
 
     def save_profile(self, profile: Profile, dek: Optional[bytes] = None):
-        if dek is not None:
-            nonce, ct = encrypt_profile(profile, bytes(dek))
-            payload = json.dumps({
-                "enc": True,
-                "nonce_hex": nonce.hex(),
-                "ct_hex": ct.hex(),
-                "schema": SCHEMA_VERSION
-            }).encode("utf-8")
-        else:
-            payload = json.dumps(profile.to_dict()).encode("utf-8")
+        if dek is None:
+            raise AuthError("An unlocked vault key is required to save personal metadata.")
+        nonce, ct = encrypt_profile(profile, bytes(dek))
+        payload = json.dumps({
+            "enc": True, "nonce_hex": nonce.hex(), "ct_hex": ct.hex(),
+            "schema": SCHEMA_VERSION
+        }).encode("utf-8")
 
         with self._get_connection() as conn:
             conn.execute("INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?);",
@@ -158,12 +156,10 @@ class VaultStore:
             # Case 2: legacy plaintext profile -> automatic migration if dek is provided
             if isinstance(data, dict):
                 legacy_profile = Profile.from_dict(data)
-                if dek is not None:
-                    # Migrate plaintext profile to encrypted
-                    try:
-                        self.save_profile(legacy_profile, bytes(dek))
-                    except Exception:
-                        pass
+                if dek is None:
+                    return None
+                # Fail visibly if migration fails; never silently retain plaintext.
+                self.save_profile(legacy_profile, bytes(dek))
                 return legacy_profile
 
             return None

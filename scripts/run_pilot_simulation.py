@@ -6,7 +6,7 @@ Uses the actual detection engine:
 - modules.syntactic: evaluate_syntactic_strength (zxcvbn), check_hibp_k_anonymity (HIBP)
 - modules.semantic: calculate_thematic_coverage (PII & leet speak detection)
 
-Saves all 30 decisions into results.csv.
+Saves synthetic decisions into results/synthetic_pilot.csv; these are not human observations.
 """
 
 import csv
@@ -49,7 +49,7 @@ PARTICIPANT_TRIALS = {
     "P10": {"variant": "B", "passwords": ["StoreCheckout12", "Maya1998Bake!", "sweetpastry2026!"]}
 }
 
-RESULTS_FILE = "results.csv"
+RESULTS_FILE = "results/synthetic_pilot.csv"
 
 def run_pilot():
     rows = []
@@ -109,7 +109,8 @@ def run_pilot():
                 breach_hits,
                 zxcvbn_score,
                 len(findings),
-                finding_types
+                finding_types,
+                "synthetic"
             ]
             rows.append(row)
             print(f"    Trial {i}: Pwd='{pwd}' | Score={zxcvbn_score} | PII_Coverage={coverage_score:.2f} | Breach={breach_hits} | Adopted={adopted} ({decision_time}s)")
@@ -117,7 +118,7 @@ def run_pilot():
     # Write to results.csv
     with open(RESULTS_FILE, mode="w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["timestamp", "participant_id", "variant", "decision_time", "adopted", "coverage_score", "breach_hits", "zxcvbn_score", "n_findings", "finding_types"])
+        writer.writerow(["timestamp", "participant_id", "variant", "decision_time", "adopted", "coverage_score", "breach_hits", "zxcvbn_score", "n_findings", "finding_types", "source"])
         writer.writerows(rows)
 
     print(f"\n[OK] Successfully logged all {len(rows)} decisions into '{RESULTS_FILE}'.")

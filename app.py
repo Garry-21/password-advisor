@@ -30,7 +30,8 @@ pages = {
         st.Page("pages/5_Settings.py", title="Settings & Profile"),
     ],
     "Research Pilot": [
-        st.Page("pages/6_Advisor_Pilot.py", title="Advisor Pilot Study"),
+        st.Page("pages/6_Advisor_Pilot.py", title="Legacy Advisor Pilot"),
+        st.Page("pages/7_Controlled_Study.py", title="Controlled Study G1–G4"),
     ]
 }
 

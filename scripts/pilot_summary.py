@@ -102,6 +102,8 @@ def evaluate_usability(results_path="results.csv"):
         return
 
     r = pd.read_csv(results_path)
+    if "source" not in r.columns or not (r["source"] == "human").all():
+        raise ValueError("Human-study analysis requires verified source=human provenance. Legacy/simulated rows cannot establish intervention effectiveness.")
     if r.empty or "participant_id" not in r.columns or r["participant_id"].dropna().empty:
         print(f"'{results_path}' is currently empty. Run sessions in app.py with participant IDs (e.g., P01-P10).")
         return

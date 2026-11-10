@@ -1,0 +1,21 @@
+{
+  "intercept": -3.953405265875436,
+  "coefficients": {
+    "breach": 11.502173333866509,
+    "semantic": 6.029722005758196,
+    "syntax": -4.196873135506185,
+    "reuse": 1.233523134427759,
+    "derivative": 5.469630597528755,
+    "age": -0.05799532009556692
+  },
+  "outcome": "S5@1000",
+  "provenance": "research_only_not_deployed",
+  "feature_names": [
+    "breach",
+    "semantic",
+    "syntax",
+    "reuse",
+    "derivative",
+    "age"
+  ]
+}

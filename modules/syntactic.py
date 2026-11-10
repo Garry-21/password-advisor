@@ -1,4 +1,5 @@
 import hashlib
+import re
 import requests
 import zxcvbn
 
@@ -53,16 +54,20 @@ def check_hibp_k_anonymity(password: str) -> int:
     }
     for attempt in range(2):
         try:
-            response = requests.get(url, headers=headers, timeout=10)
+            from vault.egress_guard import inspect_outbound_request
+            inspect_outbound_request(url, method="GET", headers=headers)
+            response = requests.get(url, headers=headers, timeout=10, allow_redirects=False)
+            if response.status_code != 200:
+                return -1
             response.raise_for_status()
             prefix_map: dict[str, int] = {}
             for line in response.text.splitlines():
-                parts = line.split(":")
-                if len(parts) >= 2:
-                    try:
-                        prefix_map[parts[0].strip().upper()] = int(parts[1].strip())
-                    except ValueError:
-                        continue
+                if not re.fullmatch(r"[0-9A-Fa-f]{35}:[0-9]+", line.strip()):
+                    return -1
+                suffix_value, count = line.strip().split(":")
+                prefix_map[suffix_value.upper()] = int(count)
+            if not prefix_map:
+                return -1
             _HIBP_PREFIX_CACHE[prefix] = prefix_map
             return prefix_map.get(suffix, 0)
         except requests.RequestException:

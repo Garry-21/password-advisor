@@ -22,7 +22,7 @@ from rapidfuzz import fuzz
 from rapidfuzz.distance import Levenshtein
 
 from vault.models import Entry, Profile
-from vault.audit import extract_base_password
+from vault.audit import extract_base_password, _are_derivatives
 from vault.generator import GeneratedPassword, generate_passphrase
 from modules.syntactic import evaluate_syntactic_strength, check_hibp_k_anonymity, check_hibp_status, BreachStatus
 from modules.semantic import calculate_thematic_coverage
@@ -122,22 +122,8 @@ def evaluate_save_gate(
         if e.password == candidate_password:
             continue  # Exact reuse already handled above
 
-        # Check raw Levenshtein edit distance <= 2
-        raw_dist = Levenshtein.distance(candidate_password, e.password)
-        if raw_dist <= 2:
+        if _are_derivatives(candidate_password, e.password, cand_base, extract_base_password(e.password)):
             derivative_sites.append(e.site_name)
-            continue
-
-        # Check normalized base similarity
-        other_base = extract_base_password(e.password)
-        if cand_base and other_base:
-            if cand_base == other_base and len(cand_base) >= 3:
-                derivative_sites.append(e.site_name)
-                continue
-            if len(cand_base) >= 4 and len(other_base) >= 4:
-                ratio = fuzz.ratio(cand_base, other_base)
-                if ratio >= 85:
-                    derivative_sites.append(e.site_name)
 
     if derivative_sites:
         reasons.append(f"Derivative variation of password used for: {', '.join(derivative_sites)}.")
@@ -160,13 +146,13 @@ def evaluate_save_gate(
         )
         if user_theme:
             suggested_exp = (
-                f"We generated a memorable, un-crackable passphrase inspired by your '{user_theme}' theme. "
-                f"It offers {suggested_pw.entropy_bits} bits of cryptographic entropy and zero reuse risk."
+                f"We generated a locally generated passphrase inspired by your '{user_theme}' theme. "
+                f"It offers {suggested_pw.entropy_bits} bits of generation entropy; this is not a guarantee against compromise."
             )
         else:
             suggested_exp = (
                 f"We generated a 4-word EFF passphrase with {suggested_pw.entropy_bits} bits of entropy. "
-                "It is easy to remember and resistant to brute-force and dictionary attacks."
+                "Keep it unique and private; generation entropy is not a measured cracking time."
             )
 
     return GateEvaluation(

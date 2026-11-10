@@ -1,0 +1,3 @@
+participant_id,condition,task_id,salted_hash_final_password,warning_shown,overridden,accepted_alternative,time_ms
+P01,G4,T1,6caf5fc2e4724662ad24dd382e288ce61e15987c5bc3cce7b1aa8be6b49e18a8,1,0,1,1250.0
+P02,G1,T1,dbe25392f9e57bdbe8f51e6a211ad8f2e0761f12d83a2c20433399859d101cad,1,1,0,980.0

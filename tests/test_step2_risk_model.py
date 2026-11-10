@@ -21,19 +21,19 @@ def test_age_off_by_default():
         modified_at="2020-01-01T00:00:00Z"
     )
 
-    # 1. Default config: age off
+    # 1. Default config: age off in risk calculation
     cfg_default = AuditConfig(enable_age_score=False)
     rep1 = audit_vault([old_entry], config=cfg_default)
     res1 = rep1.entry_results[0]
-    assert res1.a_i == 0.0
-    assert rep1.old_count == 0
+    assert res1.risk_score == 0.0
+    assert rep1.vhs_score == 100.0
 
     # 2. Config with age enabled
     cfg_age = AuditConfig(enable_age_score=True, weights={"breach": 0.35, "semantic": 0.25, "syntax": 0.15, "reuse": 0.10, "derivative": 0.05, "age": 0.10})
     rep2 = audit_vault([old_entry], config=cfg_age)
     res2 = rep2.entry_results[0]
     assert res2.a_i > 0.0
-    assert rep2.old_count == 1
+    assert res2.risk_score > 0.0
 
 
 def test_correlated_signals_cap():

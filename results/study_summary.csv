@@ -1,0 +1,5 @@
+condition,trials,warnings,override_rate,adopt_alt_rate,median_time_ms
+G1,1,1,1.0000,0.0000,980.0
+G2,0,0,0.0000,0.0000,0.0
+G3,0,0,0.0000,0.0000,0.0
+G4,1,1,0.0000,1.0000,1250.0

@@ -18,6 +18,8 @@ from vault.ui_common import require_unlocked_vault
 from vault.gate import evaluate_save_gate, GateAction
 from vault.generator import generate_passphrase
 from vault.clipboard import copy_to_clipboard
+from vault.study import is_study_mode, assign_condition, log_study_event
+from modules.syntactic import evaluate_syntactic_strength
 
 
 def render_vault_page():
@@ -29,6 +31,19 @@ def render_vault_page():
 
     entries = store.list_entries(dek)
 
+    study_active = is_study_mode()
+    study_pid = st.session_state.get('_study_pid', 'P01')
+    study_task = st.session_state.get('_study_task', 'T1')
+    study_cond = assign_condition(study_pid) if study_active else 'G4'
+    if study_active:
+        with st.sidebar.expander('Study Mode (Active)', expanded=True):
+            study_pid = st.text_input('Participant ID', value=study_pid)
+            study_task = st.text_input('Task ID', value=study_task)
+            st.session_state._study_pid = study_pid
+            st.session_state._study_task = study_task
+            study_cond = assign_condition(study_pid)
+            st.info(f'Assigned Condition: **{study_cond}**')
+
     # ── Top Action Bar ──────────────────────────────────────────────────────────
     col_search, col_add = st.columns([3, 1])
     with col_search:
@@ -38,6 +53,8 @@ def render_vault_page():
         open_add = st.button("Add Entry", type="primary", use_container_width=True)
 
     if open_add or st.session_state.get("_show_add_modal"):
+        if not st.session_state.get("_show_add_modal"):
+            st.session_state._save_start_time = time.time()
         st.session_state._show_add_modal = True
 
     # ── Add / Edit Entry Dialog ────────────────────────────────────────────────
@@ -100,46 +117,72 @@ def render_vault_page():
             if not site_name or not candidate_pw:
                 st.error("Site name and password are required.")
             else:
-                # ── Save-Time Gate Evaluation ──────────────────────────────
-                gate_eval = evaluate_save_gate(
-                    candidate_password=candidate_pw,
-                    target_site=site_name,
-                    existing_entries=entries,
-                    profile=profile,
-                    current_entry_id=existing_e.id if existing_e else None
+                elapsed_ms = (time.time() - st.session_state.get("_save_start_time", time.time())) * 1000.0
+                st.session_state._save_elapsed_ms = elapsed_ms
+
+                entry_to_save = Entry(
+                    id=existing_e.id if existing_e else str(uuid.uuid4()),
+                    site_name=site_name,
+                    url=url,
+                    username=username,
+                    password=candidate_pw,
+                    notes=notes,
+                    criticality=criticality,
+                    tags=[t.strip() for t in tags_str.split(",") if t.strip()]
                 )
 
-                if gate_eval.needs_nudge:
-                    st.session_state._nudge_eval = gate_eval
-                    st.session_state._pending_entry_data = {
-                        "id": existing_e.id if existing_e else str(uuid.uuid4()),
-                        "site_name": site_name,
-                        "url": url,
-                        "username": username,
-                        "password": candidate_pw,
-                        "notes": notes,
-                        "criticality": criticality,
-                        "tags": [t.strip() for t in tags_str.split(",") if t.strip()]
-                    }
-                    st.rerun()
-                else:
-                    # Clean password: save immediately
-                    entry_to_save = Entry(
-                        id=existing_e.id if existing_e else str(uuid.uuid4()),
-                        site_name=site_name,
-                        url=url,
-                        username=username,
-                        password=candidate_pw,
-                        notes=notes,
-                        criticality=criticality,
-                        tags=[t.strip() for t in tags_str.split(",") if t.strip()]
-                    )
+                # ── Study Mode Condition Branching ─────────────────────────
+                if study_active and study_cond == "G1":
+                    z_res = evaluate_syntactic_strength(candidate_pw)
+                    if z_res["score"] < 3:
+                        st.session_state._nudge_eval = GateEvaluation(
+                            needs_nudge=True,
+                            reasons=[f"Weak password complexity: zxcvbn score {z_res['score']}/4"],
+                            is_breached=False, breach_hits=0, pii_matched=[], thematic_score=0.0,
+                            zxcvbn_score=z_res["score"], reused_sites=[], derivative_sites=[],
+                            suggested_password=None
+                        )
+                        st.session_state._pending_entry_data = entry_to_save.__dict__
+                        st.rerun()
+                    else:
+                        store.put_entry(entry_to_save, dek)
+                        log_study_event(study_pid, "G1", study_task, candidate_pw, False, False, False, elapsed_ms)
+                        st.session_state._show_add_modal = False
+                        st.session_state._edit_entry_id = None
+                        st.success(f"Saved credential for **{site_name}**.")
+                        st.rerun()
+
+                elif study_active and study_cond == "G2":
                     store.put_entry(entry_to_save, dek)
+                    gate_eval = evaluate_save_gate(candidate_pw, site_name, entries, profile, existing_e.id if existing_e else None)
+                    if gate_eval.needs_nudge:
+                        log_study_event(study_pid, "G2", study_task, candidate_pw, True, True, False, elapsed_ms)
+                        st.warning("Saved credential, but flagged: " + ", ".join(gate_eval.reasons))
+                    else:
+                        log_study_event(study_pid, "G2", study_task, candidate_pw, False, False, False, elapsed_ms)
+                        st.success(f"Saved credential for **{site_name}**.")
                     st.session_state._show_add_modal = False
                     st.session_state._edit_entry_id = None
-                    st.session_state._generated_fill = ""
-                    st.success(f"Saved credential for **{site_name}**.")
                     st.rerun()
+
+                else:
+                    gate_eval = evaluate_save_gate(candidate_pw, site_name, entries, profile, existing_e.id if existing_e else None)
+                    if study_active and study_cond == "G3":
+                        gate_eval.suggested_password = None
+
+                    if gate_eval.needs_nudge:
+                        st.session_state._nudge_eval = gate_eval
+                        st.session_state._pending_entry_data = entry_to_save.__dict__
+                        st.rerun()
+                    else:
+                        store.put_entry(entry_to_save, dek)
+                        if study_active:
+                            log_study_event(study_pid, study_cond, study_task, candidate_pw, False, False, False, elapsed_ms)
+                        st.session_state._show_add_modal = False
+                        st.session_state._edit_entry_id = None
+                        st.session_state._generated_fill = ""
+                        st.success(f"Saved credential for **{site_name}**.")
+                        st.rerun()
 
     # ── Save-Time Gate Nudge Modal ──────────────────────────────────────────────
     if st.session_state.get("_nudge_eval") and st.session_state.get("_pending_entry_data"):
@@ -158,18 +201,24 @@ def render_vault_page():
                 f"{nudge.suggested_explanation}"
             )
 
-        col_adopt, col_edit, col_anyway = st.columns(3)
-        with col_adopt:
-            if st.button("Use Recommended Passphrase", type="primary", use_container_width=True):
-                pending["password"] = nudge.suggested_password.password
-                e = Entry(**pending)
-                store.put_entry(e, dek)
-                st.session_state._nudge_eval = None
-                st.session_state._pending_entry_data = None
-                st.session_state._show_add_modal = False
-                st.session_state._edit_entry_id = None
-                st.success(f"Saved secure passphrase for **{pending['site_name']}**.")
-                st.rerun()
+        has_alt = nudge.suggested_password is not None
+        if has_alt:
+            col_adopt, col_edit, col_anyway = st.columns(3)
+            with col_adopt:
+                if st.button("Use Recommended Passphrase", type="primary", use_container_width=True):
+                    pending["password"] = nudge.suggested_password.password
+                    e = Entry(**pending)
+                    store.put_entry(e, dek)
+                    if study_active:
+                        log_study_event(study_pid, study_cond, study_task, pending["password"], True, False, True, st.session_state.get("_save_elapsed_ms", 0.0))
+                    st.session_state._nudge_eval = None
+                    st.session_state._pending_entry_data = None
+                    st.session_state._show_add_modal = False
+                    st.session_state._edit_entry_id = None
+                    st.success(f"Saved secure passphrase for **{pending['site_name']}**.")
+                    st.rerun()
+        else:
+            col_edit, col_anyway = st.columns(2)
 
         with col_edit:
             if st.button("Edit Password", use_container_width=True):
@@ -180,6 +229,8 @@ def render_vault_page():
             if st.button(" Save Anyway (Override)", use_container_width=True):
                 e = Entry(**pending)
                 store.put_entry(e, dek)
+                if study_active:
+                    log_study_event(study_pid, study_cond, study_task, pending["password"], True, True, False, st.session_state.get("_save_elapsed_ms", 0.0))
                 st.session_state._nudge_eval = None
                 st.session_state._pending_entry_data = None
                 st.session_state._show_add_modal = False

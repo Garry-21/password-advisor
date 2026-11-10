@@ -449,10 +449,10 @@ def audit_vault(
         except Exception:
             age_days = 0
 
-        if active_cfg.enable_age_score and age_days > rotation_policy_days:
-            a_i = min(1.0, age_days / 365.0)
+        if age_days > rotation_policy_days:
             count_old += 1
             badges.append(f"Old ({age_days}d)")
+            a_i = min(1.0, age_days / 365.0)
         else:
             a_i = 0.0
 

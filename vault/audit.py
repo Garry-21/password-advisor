@@ -265,6 +265,33 @@ def calculate_calibrated_risk(
     return max(0.0, min(1.0, risk))
 
 
+def calculate_risk_score(
+    b_i: float = 0.0,
+    C_i: float = 0.0,
+    s_i: float = 0.0,
+    r_i: float = 0.0,
+    d_i: float = 0.0,
+    a_i: float = 0.0,
+    config: Optional[AuditConfig] = None
+) -> float:
+    """Computes fixed-weight risk score with correlation capping."""
+    active_cfg = config if config is not None else DEFAULT_CONFIG
+    active_weights = dict(active_cfg.weights)
+    correlated_sum = (
+        active_weights.get("semantic", 0.25) * C_i +
+        active_weights.get("reuse", 0.10) * r_i +
+        active_weights.get("derivative", 0.05) * d_i
+    )
+    capped_correlated = min(active_cfg.max_correlated_contribution, correlated_sum)
+    raw_risk = (
+        active_weights.get("breach", 0.45) * b_i +
+        active_weights.get("syntax", 0.15) * s_i +
+        active_weights.get("age", 0.0) * a_i +
+        capped_correlated
+    )
+    return max(0.0, min(1.0, raw_risk))
+
+
 def audit_vault(
     entries: List[Entry],
     profile: Optional[Profile] = None,

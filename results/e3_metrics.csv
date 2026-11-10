@@ -1,0 +1,6 @@
+metric,value
+roc_auc,1.0000
+pr_auc,1.0000
+brier_score,0.3762
+recall_on_guessed,0.5000
+fpr_on_nonguessed,0.0000

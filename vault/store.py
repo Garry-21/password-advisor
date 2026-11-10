@@ -105,16 +105,19 @@ class VaultStore:
                          ("header", header_bytes))
 
     def get_header(self) -> Optional[VaultHeader]:
-        with self._get_connection() as conn:
-            cursor = conn.execute("SELECT value FROM meta WHERE key = 'header';")
-            row = cursor.fetchone()
-            if not row or not row[0]:
-                return None
-            try:
-                data = json.loads(row[0].decode("utf-8"))
-                return VaultHeader.from_dict(data)
-            except Exception:
-                return None
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.execute("SELECT value FROM meta WHERE key = 'header';")
+                row = cursor.fetchone()
+                if not row or not row[0]:
+                    return None
+                try:
+                    data = json.loads(row[0].decode("utf-8"))
+                    return VaultHeader.from_dict(data)
+                except Exception:
+                    return None
+        except sqlite3.OperationalError:
+            return None
 
     def save_profile(self, profile: Profile, dek: Optional[bytes] = None):
         if dek is not None:

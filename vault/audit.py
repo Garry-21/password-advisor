@@ -9,6 +9,9 @@ Context-Aware Vault Audit Engine:
 - Configurable weighted risk scoring and Vault Health Score (VHS)
 """
 
+import json
+import math
+import os
 import re
 import string
 import time
@@ -24,16 +27,25 @@ from vault.models import Entry, Profile
 from modules.syntactic import evaluate_syntactic_strength, check_hibp_k_anonymity
 from modules.semantic import calculate_thematic_coverage, reverse_leet_translation
 
-# ── Configurable Weights (Section 5.3) ───────────────────────────────────────
-WEIGHTS = {
-    "breach": 0.40,
-    "semantic": 0.25,
-    "syntax": 0.15,
-    "reuse": 0.10,
-    "derivative": 0.05,
-    "age": 0.05,
-}
+# ── Unified Audit Configuration (NIST 800-63B Compliant) ────────────────────
+@dataclass
+class AuditConfig:
+    weights: Dict[str, float] = field(default_factory=lambda: {
+        "breach": 0.45,
+        "semantic": 0.25,
+        "syntax": 0.15,
+        "reuse": 0.10,
+        "derivative": 0.05,
+        "age": 0.00,        # Off by default per NIST 800-63B
+    })
+    enable_age_score: bool = False
+    rotation_policy_days: int = 90
+    max_correlated_contribution: float = 0.35  # Cap on reuse + derivative + semantic
+    cluster_mode: str = "chain"                # "chain" (Union-Find) or "pairwise" (strict)
+    calibrated_model_path: Optional[str] = "data/calibrated_scorer.json"
 
+DEFAULT_CONFIG = AuditConfig()
+WEIGHTS = dict(DEFAULT_CONFIG.weights)
 DEFAULT_ROTATION_DAYS = 90
 
 
@@ -115,48 +127,89 @@ class UnionFind:
             self.parent[root_i] = root_j
 
 
-def detect_derivative_families(entries: List[Entry]) -> Tuple[Dict[str, int], Dict[int, List[str]]]:
+def _are_derivatives(pw_i: str, pw_j: str, base_i: str, base_j: str) -> bool:
+    """Checks if two passwords satisfy derivative relation."""
+    # Condition 1: Identical non-empty base
+    if base_i and base_j and len(base_i) >= 3 and base_i == base_j:
+        return True
+
+    # Condition 2: High fuzzy similarity on base
+    if base_i and base_j and len(base_i) >= 4 and len(base_j) >= 4:
+        if fuzz.ratio(base_i, base_j) >= 85.0:
+            return True
+
+    # Condition 3: Raw Levenshtein edit distance <= 2 (for passwords >= 6 chars)
+    if len(pw_i) >= 6 and len(pw_j) >= 6:
+        if Levenshtein.distance(pw_i, pw_j) <= 2:
+            return True
+
+    return False
+
+
+def detect_derivative_families(
+    entries: List[Entry],
+    cluster_mode: str = "chain"
+) -> Tuple[Dict[str, int], Dict[int, List[str]]]:
     """
-    Clusters entries into derivative families where passwords share:
-    - Identical normalized base (e.g. Summer2024! -> summer and Summer2025! -> summer)
-    - Fuzzy base similarity >= 85 (fuzz.ratio)
-    - Raw password Levenshtein edit distance <= 2
-    Returns:
-        (entry_id_to_family_id, family_id_to_site_names)
+    Clusters entries into derivative families.
+    Modes:
+      - 'chain': Transitive Union-Find clustering (A~B and B~C => {A, B, C}).
+      - 'pairwise': Strict pairwise clique-only mode (no transitively chained groups;
+        entries are clustered only if all pairs in the group share the derivative relation).
     """
     n = len(entries)
     if n <= 1:
         return {}, {}
 
-    uf = UnionFind(n)
     bases = [extract_base_password(e.password) for e in entries]
 
+    # Pre-calculate pairwise adjacency
+    adj = [[False] * n for _ in range(n)]
     for i in range(n):
-        pw_i = entries[i].password
-        base_i = bases[i]
-        
         for j in range(i + 1, n):
-            pw_j = entries[j].password
-            base_j = bases[j]
+            if _are_derivatives(entries[i].password, entries[j].password, bases[i], bases[j]):
+                adj[i][j] = True
+                adj[j][i] = True
 
-            # Condition 1: Identical non-empty base
-            if base_i and base_j and len(base_i) >= 3 and base_i == base_j:
-                uf.union(i, j)
+    if cluster_mode == "pairwise":
+        # Strict mode: form groups where every member is connected to every other member (cliques),
+        # or disjoint pairwise pairs. A~B and B~C with A!~C will NOT merge A, B, and C together.
+        assigned = set()
+        family_id_counter = 1
+        entry_to_family: Dict[str, int] = {}
+        family_members: Dict[int, List[str]] = {}
+
+        for i in range(n):
+            if i in assigned:
                 continue
+            # Find all j connected to i
+            candidates = [j for j in range(n) if j != i and adj[i][j] and j not in assigned]
+            if not candidates:
+                continue
+            
+            # Form maximum mutual clique starting with i
+            clique = [i]
+            for c in candidates:
+                if all(adj[c][m] for m in clique):
+                    clique.append(c)
 
-            # Condition 2: High fuzzy similarity on base
-            if base_i and base_j and len(base_i) >= 4 and len(base_j) >= 4:
-                if fuzz.ratio(base_i, base_j) >= 85.0:
-                    uf.union(i, j)
-                    continue
+            if len(clique) >= 2:
+                fam_id = family_id_counter
+                family_id_counter += 1
+                for idx in clique:
+                    assigned.add(idx)
+                    entry_to_family[entries[idx].id] = fam_id
+                family_members[fam_id] = [entries[idx].site_name for idx in clique]
 
-            # Condition 3: Raw Levenshtein edit distance <= 2 (for passwords >= 6 chars)
-            if len(pw_i) >= 6 and len(pw_j) >= 6:
-                if Levenshtein.distance(pw_i, pw_j) <= 2:
-                    uf.union(i, j)
-                    continue
+        return entry_to_family, family_members
 
-    # Group components
+    # Default 'chain' mode using UnionFind
+    uf = UnionFind(n)
+    for i in range(n):
+        for j in range(i + 1, n):
+            if adj[i][j]:
+                uf.union(i, j)
+
     clusters: Dict[int, List[int]] = {}
     for idx in range(n):
         root = uf.find(idx)
@@ -170,10 +223,8 @@ def detect_derivative_families(entries: List[Entry]) -> Tuple[Dict[str, int], Di
         if len(member_indices) >= 2:
             fam_id = family_id_counter
             family_id_counter += 1
-            
             site_list = [entries[idx].site_name for idx in member_indices]
             family_members[fam_id] = site_list
-            
             for idx in member_indices:
                 entry_to_family[entries[idx].id] = fam_id
 
@@ -182,24 +233,63 @@ def detect_derivative_families(entries: List[Entry]) -> Tuple[Dict[str, int], Di
 
 # ── Audit Engine Core ────────────────────────────────────────────────────────
 
+def load_calibrated_scorer(model_path: Optional[str]) -> Optional[Dict[str, Any]]:
+    """Loads calibrated logistic regression model coefficients if file exists."""
+    if not model_path or not os.path.exists(model_path):
+        return None
+    try:
+        with open(model_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def calculate_calibrated_risk(
+    features: Dict[str, float],
+    model: Dict[str, Any]
+) -> float:
+    """
+    Computes risk score using logistic regression:
+    P(vulnerable) = 1 / (1 + exp(-(intercept + sum(coef_i * feature_i))))
+    """
+    intercept = float(model.get("intercept", 0.0))
+    coefs = model.get("coefficients", {})
+    z = intercept
+    for feat_name, val in features.items():
+        z += float(coefs.get(feat_name, 0.0)) * float(val)
+    # Sigmoid function
+    try:
+        risk = 1.0 / (1.0 + math.exp(-z))
+    except OverflowError:
+        risk = 1.0 if z > 0 else 0.0
+    return max(0.0, min(1.0, risk))
+
+
 def audit_vault(
     entries: List[Entry],
     profile: Optional[Profile] = None,
     rotation_policy_days: int = DEFAULT_ROTATION_DAYS,
     max_hibp_threads: int = 8,
     custom_weights: Optional[Dict[str, float]] = None,
+    config: Optional[AuditConfig] = None,
     progress_callback = None
 ) -> VaultAuditReport:
     """
     Performs full in-memory security audit across all unlocked entries:
     - Concurrently verifies breach counts via HIBP range API
     - Evaluates syntactic complexity and thematic personal information leaks
-    - Detects exact reuse and derivative clusters
+    - Detects exact reuse and derivative clusters (chain or pairwise mode)
+    - Prevents double counting via max_correlated_contribution cap
+    - Supports calibrated logistic regression scoring if model exists
     - Computes per-entry risk R_i and overall Vault Health Score (VHS)
     """
-    active_weights = dict(WEIGHTS)
+    active_cfg = config if config is not None else DEFAULT_CONFIG
+    active_weights = dict(active_cfg.weights)
     if custom_weights:
         active_weights.update(custom_weights)
+
+    # Load optional calibrated model
+    calibrated_model = load_calibrated_scorer(active_cfg.calibrated_model_path)
 
     total_entries = len(entries)
     if total_entries == 0:
@@ -222,7 +312,7 @@ def audit_vault(
         password_to_sites.setdefault(e.password, []).append(e.site_name)
 
     # 2. Derivative family mapping
-    entry_to_fam, fam_to_sites = detect_derivative_families(entries)
+    entry_to_fam, fam_to_sites = detect_derivative_families(entries, cluster_mode=active_cfg.cluster_mode)
 
     # 3. Concurrent HIBP checks
     hibp_results: Dict[str, int] = {}
@@ -320,8 +410,7 @@ def audit_vault(
             d_i = 0.0
             der_members = []
 
-        # Signal 6: Age
-        # Parse modified_at or created_at
+        # Signal 6: Age (Optional, off-by-default per NIST 800-63B)
         age_days = 0
         try:
             ts_str = e.modified_at or e.created_at
@@ -333,7 +422,7 @@ def audit_vault(
         except Exception:
             age_days = 0
 
-        if age_days > rotation_policy_days:
+        if active_cfg.enable_age_score and age_days > rotation_policy_days:
             a_i = min(1.0, age_days / 365.0)
             count_old += 1
             badges.append(f"Old ({age_days}d)")
@@ -341,15 +430,33 @@ def audit_vault(
             a_i = 0.0
 
         # Calculate R_i
-        raw_risk = (
-            active_weights["breach"] * b_i +
-            active_weights["semantic"] * C_i +
-            active_weights["syntax"] * s_i +
-            active_weights["reuse"] * r_i +
-            active_weights["derivative"] * d_i +
-            active_weights["age"] * a_i
-        )
-        r_risk = min(1.0, raw_risk)
+        feature_dict = {
+            "breach": b_i,
+            "semantic": C_i,
+            "syntax": s_i,
+            "reuse": r_i,
+            "derivative": d_i,
+            "age": a_i,
+        }
+
+        if calibrated_model is not None:
+            r_risk = calculate_calibrated_risk(feature_dict, calibrated_model)
+        else:
+            # Prevent double-counting of correlated signals (reuse + derivative + semantic)
+            correlated_sum = (
+                active_weights["semantic"] * C_i +
+                active_weights["reuse"] * r_i +
+                active_weights["derivative"] * d_i
+            )
+            capped_correlated = min(active_cfg.max_correlated_contribution, correlated_sum)
+
+            raw_risk = (
+                active_weights["breach"] * b_i +
+                active_weights["syntax"] * s_i +
+                active_weights["age"] * a_i +
+                capped_correlated
+            )
+            r_risk = min(1.0, raw_risk)
 
         crit_weight = float(max(1, min(3, e.criticality)))
         sum_weighted_risk += (crit_weight * r_risk)

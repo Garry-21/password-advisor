@@ -12,6 +12,7 @@ Cryptographic core for Context-Aware Local Vault (CAV):
 import base64
 import hashlib
 import hmac
+import json
 import os
 import secrets
 import struct
@@ -22,7 +23,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives import hashes
 
-from vault.models import Entry, VaultHeader, CryptoError, AuthError
+from vault.models import Entry, Profile, VaultHeader, CryptoError, AuthError
 
 # ── Cryptographic Constants ──────────────────────────────────────────────────
 ARGON2_DEFAULT_MEMORY = 65536   # 64 MiB
@@ -351,3 +352,32 @@ def decrypt_entry(entry_id: str, nonce: bytes, ciphertext: bytes, dek: bytes, sc
         raise AuthError(f"Integrity check failed for entry '{entry_id}'. Data is corrupted or tampered.")
 
     return Entry.from_json_bytes(plaintext)
+
+
+# ── Profile Level Authenticated Encryption ───────────────────────────────────
+
+def compute_profile_aad(profile_id: str = "profile", schema_version: int = SCHEMA_VERSION) -> bytes:
+    """Binds profile ciphertext to record id and schema version."""
+    return profile_id.encode("utf-8") + b":" + struct.pack(">I", schema_version)
+
+
+def encrypt_profile(profile: Profile, dek: bytes, schema_version: int = SCHEMA_VERSION) -> Tuple[bytes, bytes]:
+    """Encrypts Profile using AES-256-GCM with DEK."""
+    nonce = secrets.token_bytes(NONCE_LEN_BYTES)
+    aad = compute_profile_aad("profile", schema_version)
+    plaintext = json.dumps(profile.to_dict()).encode("utf-8")
+    aesgcm = AESGCM(dek)
+    ciphertext = aesgcm.encrypt(nonce, plaintext, aad)
+    return nonce, ciphertext
+
+
+def decrypt_profile(nonce: bytes, ciphertext: bytes, dek: bytes, schema_version: int = SCHEMA_VERSION) -> Profile:
+    """Decrypts Profile using AES-256-GCM with DEK."""
+    aad = compute_profile_aad("profile", schema_version)
+    aesgcm = AESGCM(dek)
+    try:
+        plaintext = aesgcm.decrypt(nonce, ciphertext, aad)
+    except Exception:
+        raise AuthError("Integrity check failed for profile. Data is corrupted or tampered.")
+    data = json.loads(plaintext.decode("utf-8"))
+    return Profile.from_dict(data)

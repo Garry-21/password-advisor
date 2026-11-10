@@ -11,6 +11,28 @@ def evaluate_syntactic_strength(password: str) -> dict:
         "suggestions": res["feedback"]["suggestions"],
     }
 
+from enum import Enum
+
+class BreachStatus(str, Enum):
+    BREACHED = "breached"
+    NOT_BREACHED = "not_breached"
+    UNKNOWN = "unknown"
+
+def check_hibp_status(password: str) -> tuple[BreachStatus, int]:
+    """
+    Returns (BreachStatus, count).
+    - BREACHED: count > 0
+    - NOT_BREACHED: count == 0
+    - UNKNOWN: count == -1 (offline / timeout / network error; never safe)
+    """
+    count = check_hibp_k_anonymity(password)
+    if count > 0:
+        return BreachStatus.BREACHED, count
+    elif count == 0:
+        return BreachStatus.NOT_BREACHED, 0
+    else:
+        return BreachStatus.UNKNOWN, -1
+
 _HIBP_PREFIX_CACHE: dict[str, dict[str, int]] = {}
 
 def clear_hibp_cache():
@@ -47,4 +69,6 @@ def check_hibp_k_anonymity(password: str) -> int:
             if attempt == 0:
                 continue
             return -1   # sentinel: "check failed", distinct from "0 = clean"
+        except Exception:
+            return -1
     return 0

@@ -271,8 +271,9 @@ def audit_vault(
             count_breached += 1
             badges.append(f"Breached ({hits:,} hits)")
         elif hits == -1:
-            b_i = 0.0  # Network error: marked unknown, not scored as clean
-            badges.append("Breach Check Failed")
+            # Explicit unknown handling: penalize with baseline unverified risk (0.5) so it's never treated as safe
+            b_i = 0.5
+            badges.append("Breach Check Unknown (Unverified)")
         else:
             b_i = 0.0
 

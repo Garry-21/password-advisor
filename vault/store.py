@@ -22,6 +22,8 @@ from vault.models import Entry, VaultHeader, Profile, AuthError, CryptoError
 from vault.crypto import (
     encrypt_entry,
     decrypt_entry,
+    encrypt_profile,
+    decrypt_profile,
     unlock_dek_with_password,
     unlock_dek_with_recovery,
     SCHEMA_VERSION
@@ -115,10 +117,20 @@ class VaultStore:
                 return None
 
     def save_profile(self, profile: Profile, dek: Optional[bytes] = None):
-        profile_bytes = json.dumps(profile.to_dict()).encode("utf-8")
+        if dek is not None:
+            nonce, ct = encrypt_profile(profile, bytes(dek))
+            payload = json.dumps({
+                "enc": True,
+                "nonce_hex": nonce.hex(),
+                "ct_hex": ct.hex(),
+                "schema": SCHEMA_VERSION
+            }).encode("utf-8")
+        else:
+            payload = json.dumps(profile.to_dict()).encode("utf-8")
+
         with self._get_connection() as conn:
             conn.execute("INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?);",
-                         ("profile", profile_bytes))
+                         ("profile", payload))
 
     def get_profile(self, dek: Optional[bytes] = None) -> Optional[Profile]:
         with self._get_connection() as conn:
@@ -128,9 +140,30 @@ class VaultStore:
                 return None
             try:
                 data = json.loads(row[0].decode("utf-8"))
-                return Profile.from_dict(data)
             except Exception:
                 return None
+
+            # Case 1: encrypted profile
+            if isinstance(data, dict) and data.get("enc"):
+                if dek is None:
+                    return None  # Cannot decrypt without unlocked DEK
+                nonce = bytes.fromhex(data["nonce_hex"])
+                ct = bytes.fromhex(data["ct_hex"])
+                schema = data.get("schema", SCHEMA_VERSION)
+                return decrypt_profile(nonce, ct, bytes(dek), schema_version=schema)
+
+            # Case 2: legacy plaintext profile -> automatic migration if dek is provided
+            if isinstance(data, dict):
+                legacy_profile = Profile.from_dict(data)
+                if dek is not None:
+                    # Migrate plaintext profile to encrypted
+                    try:
+                        self.save_profile(legacy_profile, bytes(dek))
+                    except Exception:
+                        pass
+                return legacy_profile
+
+            return None
 
     # ── Failed Unlock Throttling ─────────────────────────────────────────────
 

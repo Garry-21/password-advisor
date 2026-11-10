@@ -24,7 +24,7 @@ from rapidfuzz.distance import Levenshtein
 from vault.models import Entry, Profile
 from vault.audit import extract_base_password
 from vault.generator import GeneratedPassword, generate_passphrase
-from modules.syntactic import evaluate_syntactic_strength, check_hibp_k_anonymity
+from modules.syntactic import evaluate_syntactic_strength, check_hibp_k_anonymity, check_hibp_status, BreachStatus
 from modules.semantic import calculate_thematic_coverage
 
 
@@ -45,6 +45,7 @@ class GateEvaluation:
     zxcvbn_score: int
     reused_sites: List[str]
     derivative_sites: List[str]
+    breach_status: BreachStatus = BreachStatus.NOT_BREACHED
     suggested_password: Optional[GeneratedPassword] = None
     suggested_explanation: str = ""
     allowed_actions: List[GateAction] = field(default_factory=lambda: [
@@ -72,13 +73,15 @@ def evaluate_save_gate(
 
     # 1. HIBP Breach check
     try:
-        hits = check_hibp_k_anonymity(candidate_password)
+        b_status, hits = check_hibp_status(candidate_password)
     except Exception:
-        hits = 0  # Fail-open on network drop
+        b_status, hits = BreachStatus.UNKNOWN, -1
 
-    is_breached = hits > 0
+    is_breached = (b_status == BreachStatus.BREACHED)
     if is_breached:
         reasons.append(f"This password appeared {hits:,} times in past public data breaches.")
+    elif b_status == BreachStatus.UNKNOWN:
+        reasons.append("Could not verify password against public breaches (network offline/unreachable). Treat with caution.")
 
     # 2. Semantic Personal Information Leak
     pii_matched = []
@@ -176,6 +179,7 @@ def evaluate_save_gate(
         zxcvbn_score=zxcvbn_score,
         reused_sites=reused_sites,
         derivative_sites=derivative_sites,
+        breach_status=b_status,
         suggested_password=suggested_pw,
         suggested_explanation=suggested_exp
     )
